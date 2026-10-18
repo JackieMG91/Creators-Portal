@@ -2,7 +2,7 @@
 
 > Build your presence. Manage your business. Reach your audience from one portal.
 
-Creators Portal is an all-in-one SaaS platform for building, managing, distributing, and growing music businesses. It brings website, content, sales, distribution, CRM, and social tools together in one connected platform so music professionals don't have to juggle disconnected systems.
+Creators Portal is an all-in-one SaaS platform for building, managing, distributing, and growing music businesses. It brings website, content, sales, distribution, CRM, and social media management tools together in one connected platform so music professionals don't have to juggle disconnected systems.
 
 ## Who It's For
 
