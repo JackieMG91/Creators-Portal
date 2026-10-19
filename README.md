@@ -52,11 +52,16 @@ The app uses Next.js **route groups** to give each area its own layout without c
 
 | Route group | URLs | Purpose |
 |---|---|---|
+| `(website)` | `/`, `/about`, `/services`, `/pricing`, `/blog`, `/blog/[slug]` | Public marketing website with its own header and footer, server-rendered for SEO |
 | `(onboarding)` | `/login`, `/signup`, `/questionnaire` | Centered, no-sidebar layout for signing in and the post-signup questionnaire |
 | `(mainapp)` | `/dashboard` and every service page | Logged-in app with the sidebar and top bar |
-| `(marketing)` *(planned)* | `/`, pricing, product pages | Public marketing site, server-rendered for SEO |
 
-A proxy (`src/proxy.js`) sends logged-out visitors to `/login` and logged-in users to `/dashboard`. In development, set `DEV_AUTH_BYPASS=true` to skip login entirely.
+A proxy (`src/proxy.js`) controls access:
+
+- **Logged out:** public website pages and login/signup are open. Anything else redirects to the landing page (`/`).
+- **Logged in:** the landing page and login/signup redirect to `/dashboard`.
+
+New public pages must be added to the allowlist in `src/proxy.js`. In development, set `DEV_AUTH_BYPASS=true` to open app pages without logging in.
 
 ### Infrastructure
 
@@ -72,14 +77,14 @@ A proxy (`src/proxy.js`) sends logged-out visitors to `/login` and logged-in use
 
 Search and AI-answer visibility matter in two places:
 
-1. **The public marketing site** for Creators Portal itself
+1. **The public website** for Creators Portal itself
 2. **The websites customers build** with the Website Builder
 
 Both rely on the same foundations, all of which Next.js supports:
 
 - **Server-rendered HTML**, so crawlers (including AI crawlers that don't run JavaScript) see the full content
 - **Per-page metadata** (titles, descriptions, canonical URLs, Open Graph)
-- **Structured data (JSON-LD)** such as `MusicGroup`, `MusicEvent`, and `MusicAlbum`
+- **Structured data (JSON-LD)** such as `MusicGroup`, `MusicEvent`, `MusicAlbum`, and `BlogPosting`
 - **Sitemaps and `robots.txt`** generated per site
 - **Fast load times** and image optimization
 - **Clear, quotable content** that answers real questions
@@ -140,7 +145,7 @@ The original schedule of **~24–30 weeks** assumed a team. Solo development wil
 | 2. Core Platform | 5–9 | Onboarding, profiles, navigation, shared data models, notifications, subscription foundations | Internal platform alpha |
 | 3. MVP Services | 10–19 | Website builder, contact forms, CMS, sales repository, CRM, distribution, social | Feature-complete MVP |
 | 4. Quality, Security & Beta | 20–25 | Testing, accessibility, performance, security review, recovery testing, private beta | Production release candidate |
-| 5. Launch & Stabilization | 26–30 | Marketing site, rollout, support resources, monitoring, incident response | Public MVP launch |
+| 5. Launch & Stabilization | 26–30 | Public website polish (contact, FAQ, legal pages), rollout, support resources, monitoring, incident response | Public MVP launch |
 
 ### MVP Launch Criteria
 
@@ -150,24 +155,68 @@ The original schedule of **~24–30 weeks** assumed a team. Solo development wil
 - Critical user journeys meet agreed accessibility, performance, reliability, and security standards
 - Support, analytics, monitoring, and incident procedures are production-ready
 
-## Launch KPIs (First 90 Days)
+## Future Features
 
-Proposed planning benchmarks, to be rebaselined after private beta and again after 90 days of production data. These are illustrative targets, not forecasts.
+Ideas gathered while studying competitors (Bandzoogle, Beacons, Fourthwall, Artistplus, Revelator, Curve, and LabelGrid). Nothing here is committed. It's a backlog to draw from after the core MVP works.
 
-| Category | KPI | Target |
-|---|---|---|
-| Acquisition | Qualified workspace registrations | 500 in 90 days |
-| Activation | Activated workspaces | ≥ 40% within 14 days |
-| Time to value | Median time to first successful outcome | < 30 min of active use |
-| Adoption | Multi-service adoption | ≥ 30% use 2+ core services monthly |
-| Engagement | Monthly active workspace rate | ≥ 60% of activated workspaces |
-| Retention | 90-day activated-workspace retention | ≥ 70% |
-| Revenue | Trial-to-paid conversion | ≥ 15% |
-| Revenue | Monthly recurring revenue | $10,000 by day 90 |
-| Reliability | Production availability | ≥ 99.9% monthly |
-| Performance | Critical response time (p95) | < 500 ms |
-| Quality | Severity-one / severity-two defects | 0 unresolved / < 5 open |
-| Support | First-response time | < 1 business day (standard plans) |
+### What can set us apart
+
+- **Connected workflows.** A release can trigger a landing page, an email to the right contacts, and a scheduled social post.
+- **One CRM for everything.** Website forms, store buyers, and newsletter subscribers all feed the same contact records.
+- **Built for organizations.** Multiple workspaces, roles, and consolidated reporting for labels and management companies.
+- **Open API and webhooks.** At least one major competitor has no API, so integrations are a way to stand out.
+
+### Websites and fan monetization
+
+- Electronic press kit (EPK) and media kit pages
+- Ticketing and tour dates synced from Bandsintown or Seated
+- Fan subscriptions and memberships
+- Tip jar and donations
+- Digital downloads and bundles (for example ticket, album, and merch bundles)
+- Print-on-demand merch (for example through Printful)
+- Custom domains for every site
+- Link-in-bio page
+
+### Audience and marketing
+
+- AI-assisted email campaigns
+- Newsletter list segmentation
+- Social media scheduling with analytics
+- Landing pages generated for each release
+
+### Business tools
+
+- Invoices, receipts, and online payments
+- Zero commission on sales, with payment processing fees passed through
+- Contact forms inbox with read/unread status, grouped by site
+
+### Streaming platforms and distribution
+
+- Streaming platform profiles: track where an artist's music lives, with links and connection status
+- Music distribution through a partner's API rather than building direct delivery. Many competitors already offer it at low prices, so this is best treated as a convenience feature.
+
+### Label and management tools
+
+- Catalog management with metadata import and export (CSV, DDEX)
+- Contracts and royalty splits
+- Royalty statements and artist dashboards
+- Demo submission management
+- White-label option for larger customers
+
+### Suggested build order
+
+1. Website builder with contact forms, CRM and newsletters, and payments and invoices
+2. Streaming platform profiles and social scheduling
+3. Label tools (catalog, splits, statements)
+4. Distribution through a partner
+
+### Pricing ideas to validate
+
+- A free trial (14 to 30 days) instead of a free plan, since free users still cost storage and email sending
+- Add-ons for extra contacts, storage, users, and websites
+- A discount for annual billing
+- Caps on media storage and email volume, which drive most costs
+- Market references to check again before launch: artist website builders run roughly $6 to $21 a month, and label software can start around $249 a month
 
 ## Repository Layout
 
@@ -177,6 +226,7 @@ Creators-Portal/
 │   ├── public/
 │   └── src/
 │       ├── app/
+│       │   ├── (website)/     # public site: landing, about, services, pricing, blog
 │       │   ├── (onboarding)/  # login, signup, questionnaire
 │       │   ├── (mainapp)/     # dashboard and service pages
 │       │   ├── actions.js     # Server Actions (placeholder auth)
@@ -186,10 +236,11 @@ Creators-Portal/
 │       │   ├── auth/          # login and signup forms
 │       │   ├── onboarding/    # questionnaire
 │       │   ├── layout/        # sidebar, top nav, menus
-│       │   └── dashboard/     # dashboard cards
-│       ├── config/            # questionnaire options and other constants
+│       │   ├── dashboard/     # dashboard cards
+│       │   └── website/       # public site header, footer, blog pieces
+│       ├── config/            # site content, blog posts, questionnaire options
 │       ├── lib/               # helpers and mock data
-│       └── proxy.js           # auth redirects
+│       └── proxy.js           # access rules and redirects
 ├── LICENSE
 └── README.md
 ```
@@ -218,6 +269,7 @@ With the bypass on, you can open `/dashboard` without logging in. Set it to `fal
 🚧 Early development.
 
 **Done**
+- Public website: landing, services, pricing, about, and blog pages (sample content)
 - Login and signup pages with placeholder authentication
 - Post-signup questionnaire (account type, services, team size)
 - Dashboard shell with sidebar, top bar, workspace switcher, search, and messages menu (mock data)
@@ -226,6 +278,7 @@ With the bypass on, you can open `/dashboard` without logging in. Set it to `fal
 - Database and real authentication
 - Workspaces, invitations, and roles
 - First service: Website Builder with contact forms
+- Remaining public pages: contact, FAQ, privacy, terms, sitemap
 
 ## License
 

@@ -3,6 +3,8 @@ import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ServiceGrid from "@/components/website/ServiceGrid";
 import { SERVICES, SITE } from "@/config/site";
+import FutureFeatures from "@/components/website/FutureFeatures";
+import { FUTURE_FEATURES } from "@/config/roadmap";
 
 export const metadata = { alternates: { canonical: "/" } };
 
@@ -35,6 +37,20 @@ export default function LandingPage() {
 
       <section className="mx-auto max-w-6xl px-4 py-16">
         <h2 className="text-2xl font-semibold">Everything in one portal</h2>
+        <section className="border-y bg-muted/30 py-16">
+          <div className="mx-auto max-w-6xl px-4">
+            <h2 className="text-2xl font-semibold">Coming soon</h2>
+            <p className="mt-2 max-w-2xl text-muted-foreground">
+              We&apos;re building Creators Portal in the open. Here&apos;s a look at what&apos;s on the way.
+            </p>
+            <div className="mt-6">
+              <FutureFeatures features={FUTURE_FEATURES.filter((f) => f.featured)} />
+            </div>
+            <Button asChild variant="link" className="mt-4 px-0">
+              <Link href="/roadmap">See everything we&apos;re planning</Link>
+            </Button>
+          </div>
+        </section>
         <div className="mt-6"><ServiceGrid services={SERVICES.slice(0, 6)} /></div>
         <Button asChild variant="link" className="mt-4 px-0"><Link href="/services">See all services</Link></Button>
       </section>

@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
 // Anyone can see these (the (website) group)
-const PUBLIC_PAGES = ["/", "/about", "/services", "/pricing", "/contact", "/faq", "/privacy", "/terms"];
+const PUBLIC_PAGES = ["/", "/about", "/services", "/pricing", "/roadmap", "/contact", "/faq", "/privacy", "/terms"];
 const PUBLIC_PREFIXES = ["/blog"];
 
 // Logged-out only (the (onboarding) group)

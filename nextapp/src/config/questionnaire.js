@@ -13,6 +13,7 @@ export const ACCOUNT_TYPES = [
 
 export const ORG_TYPES = [
   { value: "retailer", label: "Music retailer" },
+  { value: "instrument-instruction", label: "Instrument instruction" },
   { value: "management", label: "Artist management company" },
   { value: "label", label: "Record label" },
   { value: "studio", label: "Recording / mixing / mastering studio" },
@@ -26,6 +27,7 @@ export const SELF_TYPES = [
   { value: "songwriter", label: "Songwriter" },
   { value: "musician", label: "Musician" },
   { value: "artist-manager", label: "Artist Manager" },
+  { value: "podcaster", label: "Podcaster" },
   { value: "other", label: "Other" },
 ];
 
